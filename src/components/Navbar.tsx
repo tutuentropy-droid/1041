@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, BookOpen, Heart } from 'lucide-react';
+import { Home, BookOpen, Heart, Map as MapIcon } from 'lucide-react';
 import { useFavoritesStore } from '@/store/favorites';
 
 const Navbar = () => {
@@ -43,6 +43,18 @@ const Navbar = () => {
             >
               <BookOpen size={18} />
               <span className="hidden sm:inline font-medium">档案馆</span>
+            </Link>
+            
+            <Link 
+              to="/map"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                location.pathname === '/map'
+                  ? 'bg-white/80 text-fairy-violet shadow-md' 
+                  : 'text-fairy-violet/70 hover:bg-white/50'
+              }`}
+            >
+              <MapIcon size={18} />
+              <span className="hidden sm:inline font-medium">地图</span>
             </Link>
             
             <Link 

@@ -2,6 +2,7 @@ export interface Bag {
   id: string;
   name: string;
   style: string;
+  type: string;
   capacity: string;
   personality: string;
   collectValue: string;

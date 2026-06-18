@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, Heart, Star, BookOpen } from 'lucide-react';
+import { Sparkles, ArrowRight, Star, BookOpen, MapPin } from 'lucide-react';
 import { getFeaturedBags } from '@/data/bags';
 import BagCard from '@/components/BagCard';
 import { FairyBackground, FloatingStar, FloatingHeart } from '@/components/Decorators';
@@ -42,10 +42,14 @@ const Home = () => {
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 
-                <button className="fairy-btn-secondary flex items-center gap-2 text-lg">
-                  <Heart size={20} />
-                  <span>热门居民</span>
-                </button>
+                <Link
+                  to="/map"
+                  className="fairy-btn-secondary flex items-center gap-2 text-lg group"
+                >
+                  <MapPin size={20} />
+                  <span>探索世界地图</span>
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
               
               <div className="flex items-center justify-center gap-8 mt-12 text-purple-600/70">

@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import BagList from "@/pages/BagList";
 import BagDetail from "@/pages/BagDetail";
 import Favorites from "@/pages/Favorites";
+import WorldMap from "@/pages/WorldMap";
 import Navbar from "@/components/Navbar";
 import ToastContainer from "@/components/Toast";
 
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/bags" element={<BagList />} />
           <Route path="/bags/:id" element={<BagDetail />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/map" element={<WorldMap />} />
         </Routes>
       </div>
     </Router>
