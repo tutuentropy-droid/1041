@@ -1,9 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, BookOpen, Heart } from 'lucide-react';
+import { useFavoritesStore } from '@/store/favorites';
 
 const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const favoritesCount = useFavoritesStore((state) => state.favorites.length);
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -43,10 +45,22 @@ const Navbar = () => {
               <span className="hidden sm:inline font-medium">档案馆</span>
             </Link>
             
-            <button className="flex items-center gap-2 px-4 py-2 rounded-full text-fairy-rose/70 hover:bg-white/50 transition-all duration-300">
-              <Heart size={18} />
+            <Link 
+              to="/favorites"
+              className={`relative flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                location.pathname === '/favorites'
+                  ? 'bg-white/80 text-fairy-rose shadow-md' 
+                  : 'text-fairy-rose/70 hover:bg-white/50'
+              }`}
+            >
+              <Heart size={18} fill={location.pathname === '/favorites' ? 'currentColor' : 'none'} />
               <span className="hidden sm:inline font-medium">收藏</span>
-            </button>
+              {favoritesCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-fairy-rose text-white text-xs font-bold rounded-full flex items-center justify-center shadow-md animate-bounce-soft">
+                  {favoritesCount > 99 ? '99+' : favoritesCount}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </div>

@@ -4,12 +4,33 @@ import { getBagById } from '@/data/bags';
 import InfoCard from '@/components/InfoCard';
 import { FairyBackground, FloatingStar, FloatingFlower } from '@/components/Decorators';
 import { useState } from 'react';
+import { useFavoritesStore } from '@/store/favorites';
+import { useToast } from '@/components/Toast';
+import ShareModal from '@/components/ShareModal';
 
 const BagDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const bag = getBagById(id || '');
-  const [isLiked, setIsLiked] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavoritesStore();
+  const { showToast } = useToast();
+  const [showShareModal, setShowShareModal] = useState(false);
+  
+  const isLiked = bag ? isFavorite(bag.id) : false;
+  
+  const handleToggleFavorite = () => {
+    if (!bag) return;
+    toggleFavorite(bag.id);
+    if (!isLiked) {
+      showToast(`已收藏「${bag.name}」！`, 'success');
+    } else {
+      showToast(`已取消收藏「${bag.name}」`, 'info');
+    }
+  };
+  
+  const handleShare = () => {
+    setShowShareModal(true);
+  };
   
   if (!bag) {
     return (
@@ -66,16 +87,19 @@ const BagDetail = () => {
                 
                 <div className="absolute top-4 right-4 flex gap-2">
                   <button 
-                    onClick={() => setIsLiked(!isLiked)}
+                    onClick={handleToggleFavorite}
                     className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 ${
                       isLiked 
-                        ? 'bg-fairy-rose text-white' 
+                        ? 'bg-fairy-rose text-white animate-bounce-soft' 
                         : 'bg-white/90 text-purple-400 hover:text-fairy-rose'
                     }`}
                   >
                     <Heart size={22} fill={isLiked ? 'currentColor' : 'none'} />
                   </button>
-                  <button className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-purple-400 hover:text-fairy-violet shadow-lg transition-all hover:scale-110">
+                  <button 
+                    onClick={handleShare}
+                    className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-purple-400 hover:text-fairy-violet shadow-lg transition-all hover:scale-110"
+                  >
                     <Share2 size={22} />
                   </button>
                 </div>
@@ -217,6 +241,13 @@ const BagDetail = () => {
           </div>
         </div>
       </div>
+      
+      <ShareModal 
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        title={`包包世界档案馆 - ${bag.name}`}
+        url={typeof window !== 'undefined' ? window.location.href : ''}
+      />
     </FairyBackground>
   );
 };
